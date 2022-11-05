@@ -263,8 +263,4 @@ inDB = """SELECT name
        FROM sqlite_master 
        WHERE type='table' AND name=?;"""
 
-drop_tables = """
-  DROP TABLE Economies;
-  DROP TABLE Picks;
-  DROP TABLE Players;
-  DROP TABLE Results;"""
+drop_table = """DROP TABLE ?;"""

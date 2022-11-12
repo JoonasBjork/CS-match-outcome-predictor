@@ -1,0 +1,10 @@
+db/*
+data/raw/*
+.venv
+__pycache__
+db/*
+
+
+
+#ignored
+!data/raw/credit.txt

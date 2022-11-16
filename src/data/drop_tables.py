@@ -11,7 +11,8 @@ def main():
     tableNames = ["Economies",
                   "Picks",
                   "Players",
-                  "Results"]
+                  "Results",
+                  "Rounds"]
 
     # filename = Path("asd")
     # print(filename)

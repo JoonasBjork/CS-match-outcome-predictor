@@ -6,15 +6,16 @@ def create_model(learning_rate):
 
     model = keras.models.Sequential(
         [
-            layers.Input(shape=(2,)),
-            layers.Dense(8, activation='sigmoid'),
+            layers.Input(shape=(4,)),
+            # layers.Dense(32, activation='sigmoid'),
+            layers.Dense(16, activation='sigmoid'),
             layers.Dense(1),
         ]
     )
 
     model.compile(optimizer=keras.optimizers.Adam(learning_rate=learning_rate),
-                  loss=keras.losses.MeanSquaredError(),
-                  metrics=[keras.metrics.MeanSquaredError(),
+                  loss=keras.losses.SquaredHinge(),
+                  metrics=[keras.metrics.MeanAbsoluteError(),
                            keras.metrics.BinaryAccuracy(threshold=0.5),
                            keras.metrics.AUC()]
                   )

@@ -5,7 +5,7 @@ import numpy as np
 # import tensorflow as tf
 
 LEARNING_RATE = 0.001
-BATCH_SIZE = 64
+BATCH_SIZE = 16
 EPOCHS = 1
 
 

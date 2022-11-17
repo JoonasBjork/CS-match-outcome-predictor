@@ -1,1 +1,4 @@
 https://www.kaggle.com/datasets/mateusdmachado/csgo-professional-matches
+
+Only modifications to the raw data were modifications to team names
+because they contained special characters.  

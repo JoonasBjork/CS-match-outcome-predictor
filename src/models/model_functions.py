@@ -2,23 +2,20 @@ from tensorflow import keras
 from keras import layers
 
 
-num_of_inputs = 3
-
-
 def create_model(learning_rate):
 
     model = keras.models.Sequential(
         [
             layers.Input(shape=(3,)),
-            layers.Dense(32, activation='sigmoid'),
-            layers.Dense(2),
+            layers.Dense(8, activation='sigmoid'),
+            layers.Dense(1),
         ]
     )
 
     model.compile(optimizer=keras.optimizers.Adam(learning_rate=learning_rate),
                   loss=keras.losses.MeanSquaredError(),
                   metrics=[keras.metrics.MeanSquaredError(),
-                           keras.metrics.Accuracy(),
+                           keras.metrics.BinaryAccuracy(threshold=0.5),
                            keras.metrics.AUC()]
                   )
 

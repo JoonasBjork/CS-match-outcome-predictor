@@ -1,11 +1,11 @@
-from train_model import create_model, train_model, test_model, save_model
+from model_functions import create_model, train_model, test_model, save_model
 import pandas as pd
 from pathlib import Path
 import numpy as np
 # import tensorflow as tf
 
-LEARNING_RATE = 0.1
-BATCH_SIZE = 32
+LEARNING_RATE = 0.001
+BATCH_SIZE = 64
 EPOCHS = 1
 
 

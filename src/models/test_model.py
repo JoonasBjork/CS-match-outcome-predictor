@@ -1,4 +1,4 @@
-from train_model import load_model, test_model
+from model_functions import load_model, test_model
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -14,6 +14,11 @@ def main():
 
     model = load_model(
         f"{project_root}/src/models/saved_models/my_model.model")
+
+    print("Model weights")
+    for layer in model.layers:
+        print(layer.get_config(), layer.get_weights())
+    # print(model.get_weight_paths())
 
     # config = model.get_config()
     # print(config)
@@ -32,9 +37,8 @@ def main():
     # predictions = np.around(model.predict(x_test))
 
     # print(predictions)
+    print("Model main test with test data")
     test_model(model, x_test, y_test, 32)
-    output = tf.keras.Lambda(lambda x: round(x))(model.output)
-
     # prediction = model.predict(x_test.head(25))
     # arr = np.array(y_test.head(25))
     # for i in range(25):

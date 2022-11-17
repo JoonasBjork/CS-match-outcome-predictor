@@ -6,7 +6,7 @@ def create_model(learning_rate):
 
     model = keras.models.Sequential(
         [
-            layers.Input(shape=(3,)),
+            layers.Input(shape=(2,)),
             layers.Dense(8, activation='sigmoid'),
             layers.Dense(1),
         ]

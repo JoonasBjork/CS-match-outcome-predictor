@@ -3,6 +3,8 @@ data/raw/*
 .venv
 __pycache__
 db/*
+src/models/training_data/*
+src/models/saved_models/*
 
 
 

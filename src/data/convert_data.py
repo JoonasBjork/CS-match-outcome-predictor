@@ -31,10 +31,12 @@ def main():
         query = inserts[tableName]
         cursor.execute(query, data)
 
-    try:
-        conn = sqlite3.connect(f"{project_root}/db/CSMatchData.db")
+    with sqlite3.connect(f"{project_root}/db/CSMatchData.db") as conn:
         cursor = conn.cursor()
         conn.row_factory = lambda cursor, row: row
+
+        if not tableExists("Rounds"):
+            createTable("Rounds")
 
         cursor.execute(sql_get_raw_round_economies)
         names = [description[0] for description in cursor.description]
@@ -47,16 +49,11 @@ def main():
         t2_economies_index = names.index('round_1_t2')
         game_winner_index = names.index('match_winner')
 
-        print(round_winner_index, t1_start_index, map_index,
-              t1_economies_index, t2_economies_index, game_winner_index)
-
         # row = cursor.fetchone()
 
         # print(row)
-        print(names)
         i = 0
         for row in cursor.fetchall():
-
             round_count = 30 - \
                 (row[round_winner_index:round_winner_index + 30]).count('')
             current_t1_wins = 0
@@ -97,9 +94,6 @@ def main():
                         row[game_winner_index]
                         ]
 
-                if not tableExists("Rounds"):
-                    createTable("Rounds")
-
                 try:
                     insert("Rounds", data)
                     # print(idx)
@@ -115,10 +109,6 @@ def main():
                     current_t1_wins += 1
                 else:
                     current_t2_wins += 1
-
-    finally:
-        conn.commit()
-        conn.close()
 
 
 if __name__ == "__main__":

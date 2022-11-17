@@ -284,4 +284,4 @@ drop_table = """DROP TABLE ?;"""
 
 sql_get_raw_round_economies = """SELECT *
 FROM Economies, Results
-WHERE Economies.match_id = Results.match_id AND Economies._map = Results._map"""
+WHERE Economies.match_id = Results.match_id AND Economies._map = Results._map AND Results._map != 'Default'"""

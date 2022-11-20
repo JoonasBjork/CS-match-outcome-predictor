@@ -2,11 +2,10 @@ import sqlite3
 from queries.sql_analysis import *
 from utils.path import get_project_root
 
-project_root = get_project_root()
-
 
 def main():
     try:
+        project_root = get_project_root()
         conn = sqlite3.connect(f"{project_root}/db/CSMatchData.db")
         cursor = conn.cursor()
 

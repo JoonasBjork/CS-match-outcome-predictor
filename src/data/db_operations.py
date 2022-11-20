@@ -1,18 +1,18 @@
-from queries.sql_creation import inDB
+from queries.sql_creation import in_db
 
 
-def createTable(conn, query):
+def create_table(conn, query):
     conn.cursor().execute(query)
     conn.commit()
 
 
-def tableExists(cursor, tableName):
-    res = cursor.execute(inDB, [tableName])
+def table_exists(cursor, tableName):
+    res = cursor.execute(in_db, [tableName])
     if (len(res.fetchall())) == 0:
         return False
     else:
         return True
 
 
-def insertIntoTable(cursor, query, data):
+def insert_into_table(cursor, query, data):
     cursor.execute(query, data)

@@ -275,7 +275,7 @@ creations = {
 )"""
 }
 
-inDB = """SELECT name
+in_db = """SELECT name
        FROM sqlite_master 
        WHERE type='table' AND name=?;"""
 

@@ -1,9 +1,6 @@
 from model_functions import load_model, test_model
 from pathlib import Path
-import numpy as np
 import pandas as pd
-import tensorflow as tf
-import math
 
 
 def main():
@@ -26,11 +23,6 @@ def main():
     data_path = f"{project_root}/src/models/training_data/"
     x_test = pd.read_pickle(Path(data_path, 'x_test.pkl'))
     y_test = pd.read_pickle(Path(data_path, 'y_test.pkl'))
-    # print(x_test.shape)
-    # print(y_test.shape)
-
-    # print(x_test.head(5))
-    # print(y_test.head(5))
 
     # print(np.array(y_test.head(5)))
 

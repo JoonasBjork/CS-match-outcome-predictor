@@ -1,12 +1,8 @@
-
 from pathlib import Path
-import tensorflow as tf
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split
 # from sklearn.preprocessing import OneHotEncoder
 import sqlite3
-import sys
 
 
 # Writes the training, validation and test data into model/training_data in .pkl format
@@ -24,11 +20,11 @@ def main():
         # pd.set_option('display.max_columns', 20)
         # print(data.describe())
         # print(data.corr())
-        # sys.exit()
 
         # Shuffle data
         raw_data = data.sample(frac=1).reset_index()
 
+        # Choose the labels
         labels = pd.DataFrame()
 
         # labels['game_winner'] = raw_data['game_winner'] - 1
@@ -38,9 +34,6 @@ def main():
         raw_data.drop('game_winner', inplace=True, axis=1)
         raw_data.drop('round_winner', inplace=True, axis=1)
         # print(full_df.corr())
-
-        # print(raw_data)
-        # print(labels)
 
         x_train, x_validation, y_train, y_validation = train_test_split(
             raw_data, labels, test_size=0.4
@@ -71,8 +64,6 @@ def main():
         # x_train = pd.get_dummies(x_train, columns=columns)
         # x_validation = pd.get_dummies(x_validation, columns=columns)
         # x_test = pd.get_dummies(x_test, columns=columns)
-
-        # print(x_train.head(10))
 
         # dummy = tf.keras.utils.to_categorical(dummy)
 

@@ -9,5 +9,10 @@ map_encodings = {
     'Mirage': 6,
     'Train': 7,
     'Nuke': 8
-
 }
+
+drop_table_list = ["Economies",
+                   "Picks",
+                   "Players",
+                   "Results",
+                   "Rounds"]

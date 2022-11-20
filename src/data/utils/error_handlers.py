@@ -1,12 +1,11 @@
-def integrityErrorPrint(index, line, error):
+def integrity_error_print(index, error):
     print(f"Error index/line: {index}")
-    print(f"Error line data: {line}")
     print(f"Error reason: \"{error}\"")
     print("Quitting Program")
     quit()
 
 
-def unicodeErrorPrint(index, error):
+def unicode_error_print(index, error):
     print(f"Error index/line: {index}")
     print(f"Most likely data contains unknown character")
     print(f"Error reason: \"{error}\"")
@@ -14,12 +13,12 @@ def unicodeErrorPrint(index, error):
     quit()
 
 
-def operationalErrorPrint(tableName, error):
+def operational_error_print(tableName, error):
     print(f"Could not remove \"{tableName}\" for reason \"{error}\"")
     print(error)
 
 
-def fileNotFoundErrorPrint(filename, error):
+def file_not_found_error_print(filename, error):
     print(f"Couldn't find file from path \"{filename}\"")
     print("Quitting program")
     quit()

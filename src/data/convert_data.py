@@ -1,30 +1,30 @@
-import numpy as np
 import sqlite3
 from queries.sql_creation import sql_get_raw_round_economies, creations, inserts
 from utils.path import get_project_root
-from utils.error_handlers import integrityErrorPrint
-from utils.dicts import map_encodings
-from db_operations import insertIntoTable, tableExists, createTable
+from utils.error_handlers import integrity_error_print
+from utils.lists import map_encodings
+from db_operations import insert_into_table, table_exists, create_table
 
 # Convert the data into form
 # match_id, round_num, t1_score, t2_score, t1_side, t2_side, t1_equip_value, t2_equip_value, equip_value_difference, map, round_winner, game_winner
 
 project_root = get_project_root()
 
-_ROUNDS_TABLE_NAME = "Rounds"
+# Name of the created table that contains the finalized data
+_TABLE_NAME = "Rounds"
 
 
 def main():
-
-    with sqlite3.connect(f"{project_root}/db/CSMatchData.db") as conn:
+    try:
+        conn = sqlite3.connect(f"{project_root}/db/CSMatchData.db")
         cursor = conn.cursor()
-        conn.row_factory = lambda row: row
 
-        if not tableExists(cursor, _ROUNDS_TABLE_NAME):
-            createTable(conn, creations[_ROUNDS_TABLE_NAME])
+        if not table_exists(cursor, _TABLE_NAME):
+            create_table(conn, creations[_TABLE_NAME])
 
         # Get raw table data from combined tables
         cursor.execute(sql_get_raw_round_economies)
+
         names = [description[0] for description in cursor.description]
 
         # All indices in the raw data that are filtered into processed data
@@ -36,7 +36,8 @@ def main():
         t2_economies_index = names.index('round_1_t2')
         game_winner_index = names.index('match_winner')
 
-        i = 0
+        index = 1
+
         for row in cursor.fetchall():
             round_count = 30 - \
                 (row[round_winner_index:round_winner_index + 30]).count('')
@@ -46,22 +47,11 @@ def main():
 
                 # 0: t-side, 1: ct-side
                 t1_side = 0
-                t2_side = 0
+                t2_side = 1
 
-                if (row[t1_start_index] == 't'):
-                    if (round_num < 15):
-                        t1_side = 0
-                        t2_side = 1
-                    else:
-                        t1_side = 1
-                        t2_side = 0
-                else:
-                    if (round_num < 15):
-                        t1_side = 1
-                        t2_side = 0
-                    else:
-                        t1_side = 0
-                        t2_side = 1
+                if ((row[t1_start_index] == 't') != (round_num < 15)):
+                    t1_side = 1
+                    t2_side = 0
 
                 data = [row[match_id_index],
                         round_num,
@@ -78,18 +68,21 @@ def main():
                         row[game_winner_index]
                         ]
 
-                try:
-                    insertIntoTable(cursor, inserts[_ROUNDS_TABLE_NAME], data)
-                    if (i % 10000 == 0):
-                        print(f"{i} lines added")
-                    i += 1
-                except sqlite3.IntegrityError as e:
-                    integrityErrorPrint(0, data, e)
+                insert_into_table(
+                    cursor, inserts[_TABLE_NAME], data)
+                if (index % 10000 == 0):
+                    print(f"{index} lines added")
+                index += 1
 
                 if (row[round_winner_index + round_num] == 1):
                     current_t1_wins += 1
                 else:
                     current_t2_wins += 1
+    except sqlite3.IntegrityError as e:
+        integrity_error_print(index, e)
+    finally:
+        conn.commit()
+        conn.close()
 
 
 if __name__ == "__main__":
